@@ -59,14 +59,6 @@ def preprocess(image, input_size, swap=(2, 0, 1)):
     padded_image = np.ascontiguousarray(padded_image, dtype=np.float32)
     return padded_image, ratio
 
-# def sigmoid(x):
-#     return 1 / (1 + np.exp(-x))
-
-# def softmax(x):
-#     exp_x = np.exp(x - np.max(x))
-#     return exp_x / exp_x.sum(axis=-1, keepdims=True)
-
-
 def postprocess(
     outputs,
     img_size,
@@ -268,36 +260,20 @@ def draw_bbox(image, bboxes, classes):
     return image
 
 
-def reshape_and_concat_outputs(outputs):
-    reshaped_outputs = []
-    for output in outputs:
-        batch_size, num_channels, grid_h, grid_w = output.shape
-        reshaped_output = output.transpose(0, 2, 3, 1).reshape(batch_size, -1, num_channels)
-        reshaped_outputs.append(reshaped_output)
-    concatenated_output = np.concatenate(reshaped_outputs, axis=1)
-    return concatenated_output   
-
 # ***********************************************************************
-# Use VOE APIs
+# Use ONNX Runtime
 # ***********************************************************************
 
 session = onnxruntime.InferenceSession(
 'yolox_nano.onnx',
-# providers=["VitisAIExecutionProvider"],
 providers=["CPUExecutionProvider"])
 
 input_shape = session.get_inputs()[0].shape
 input_name = session.get_inputs()[0].name
 input_type = session.get_inputs()[0].type
 output_shape_0 = session.get_outputs()[0].shape
-# output_shape_1 = session.get_outputs()[1].shape
-# output_shape_2 = session.get_outputs()[2].shape
 print(input_shape)
-print(input_name)
-print(input_type)
 print(output_shape_0)
-# print(output_shape_1)
-# print(output_shape_2)
 print(" ")
 
 # ***********************************************************************
@@ -329,8 +305,6 @@ def run(image_index, display=False):
     
     # postprocess
     decode_start = time.time()
-    # outputs = reshape_and_concat_outputs(output_data)
-
     bboxes, scores, class_ids = postprocess(
         # outputs,
         output_data[0],
@@ -375,11 +349,4 @@ def run(image_index, display=False):
 
 
 run(0, display=True)
-run(0, display=True)
-run(0, display=True)
 
-# ***********************************************************************
-# Clean up
-# ***********************************************************************
-# del overlay
-# del dpu
