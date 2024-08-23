@@ -339,7 +339,7 @@ def run(image_index, display=False):
     print("scores of detected objects: {}".format(scores))
     print("Details of detected objects: {}".format(class_ids))
     print("Pre-processing time: {:.4f} seconds".format(pre_process_end - pre_process_start))
-    print("DPU execution time: {:.4f} seconds".format(dpu_end - dpu_start))
+    print("CPU execution time: {:.4f} seconds".format(dpu_end - dpu_start))
     print("Post-process time: {:.4f} seconds".format(decode_end - decode_start))
     #print("Draw boxes time: {:.4f} seconds".format(draw_end - draw_start))
     print("Total run time: {:.4f} seconds".format(end_time - start_time))
