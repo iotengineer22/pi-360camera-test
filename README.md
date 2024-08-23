@@ -1,9 +1,6 @@
 # pi-360camera-test
 This repository present solution for my raspberry-pi 360 camera test
 
-Here's the English translation for your GitHub ReadMe:
-
----
 
 ## Trying YOLOX with Raspberry Pi and ONNX Runtime
 
