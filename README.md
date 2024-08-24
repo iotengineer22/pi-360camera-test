@@ -98,8 +98,107 @@ Total run time: 0.2176 seconds
 Performance: 4.596205391876461 FPS
 ```
 
-
 The detected image is saved as `result.jpg` in the `img` folder in the same directory.
 
 The object detection was successful.
+
+
+
+## Object Detection and Live Streaming with Raspberry Pi and 360-Degree Camera
+
+We experimented with live streaming from Python using a Raspberry Pi and a 360-degree camera. 
+
+The setup allowed us to capture 360-degree images in real-time.
+
+We also conducted tests for 360-degree object detection using YOLOX. The Raspberry Pi and the 360-degree camera successfully performed object detection.
+
+You can find the test videos below.
+
+We'll introduce the 360-degree camera we used and the program.
+
+### Test Environment
+
+We used a Raspberry Pi 4 running a 64-bit OS.
+
+The 360-degree camera used was the RICOH THETA V. It's an older model with USB 2.0 connectivity, but it has various APIs and libraries available.
+
+
+### Installation
+
+To enable live streaming from a USB camera, we need to install some libraries like GStreamer, libuvc, and v4l2loopback-dkms.
+
+```bash
+sudo apt install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio
+sudo apt install v4l2loopback-dkms
+sudo apt-get install libusb-1.0-0-dev
+```
+
+```bash
+git clone https://github.com/nickel110/libuvc.git
+cd libuvc/
+mkdir build
+cd build/
+cmake ..
+sudo apt-get install cmake
+cmake ..
+make && sudo make install
+```
+
+We also need to install the libraries required for the RICOH THETA camera.
+
+```bash
+git clone https://github.com/nickel110/gstthetauvc.git
+cd gstthetauvc/thetauvc/
+make
+sudo cp gstthetauvc.so /usr/lib/aarch64-linux-gnu/gstreamer-1.0
+sudo /sbin/ldconfig -v
+```
+
+Set the GStreamer plugin path:
+
+```bash
+echo $GST_PLUGIN_PATH
+sudo vim ~/.bashrc 
+# Add: export GST_PLUGIN_PATH=/usr/lib/aarch64-linux-gnu/gstreamer-1.0
+source ~/.bashrc
+echo $GST_PLUGIN_PATH
+gst-inspect-1.0 thetauvcsrc
+```
+
+### Python Test Programs
+
+Programs used in each test:
+
+- Object Detection with Webcam: `app_gst-yolox-onnx-normal-camera.py`
+- 360-Degree Live Streaming: `gst-test-360-2divide.py`
+- 360-Degree Object Detection: `app_gst-yolox-onnx-360-camera.py`
+
+
+### Pre-Test for Object Detection with Webcam (YOLOX)
+
+Before testing with the 360-degree camera, we conducted a pre-test using a regular webcam.
+
+The webcam used is a "Logitech C270n," which is a very affordable camera with a resolution of 640x480 at 30fps. It is sufficient for our test.
+
+You can watch the pre-test video below.
+
+The Raspberry Pi and the webcam are connected via USB. We defined a pipeline with GStreamer to capture data, and YOLOX performs object detection on that data, displaying the results using OpenCV.
+
+### Live Streaming with Raspberry Pi and 360-Degree Camera
+
+We tested live streaming using a Raspberry Pi and a 360-degree camera, specifically the RICOH THETA V. 
+
+The Raspberry Pi is already running. The top-right video shows a top view of the actual setup with the Raspberry Pi and the 360-degree camera.
+
+We review the program briefly. It uses GStreamer to capture data from the 360-degree camera.
+
+
+
+### Object Detection (YOLOX) with Raspberry Pi and 360-Degree Camera 
+
+We tested object detection (YOLOX) using a Raspberry Pi and a 360-degree camera.
+
+We successfully performed 360-degree object detection.
+
+
 
