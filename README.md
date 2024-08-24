@@ -112,9 +112,6 @@ The setup allowed us to capture 360-degree images in real-time.
 
 We also conducted tests for 360-degree object detection using YOLOX. The Raspberry Pi and the 360-degree camera successfully performed object detection.
 
-You can find the test videos below.
-
-We'll introduce the 360-degree camera we used and the program.
 
 ### Test Environment
 
