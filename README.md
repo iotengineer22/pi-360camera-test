@@ -180,15 +180,12 @@ Before testing with the 360-degree camera, we conducted a pre-test using a regul
 
 The webcam used is a "Logitech C270n," which is a very affordable camera with a resolution of 640x480 at 30fps. It is sufficient for our test.
 
-You can watch the pre-test video below.
-
 The Raspberry Pi and the webcam are connected via USB. We defined a pipeline with GStreamer to capture data, and YOLOX performs object detection on that data, displaying the results using OpenCV.
+
 
 ### Live Streaming with Raspberry Pi and 360-Degree Camera
 
 We tested live streaming using a Raspberry Pi and a 360-degree camera, specifically the RICOH THETA V. 
-
-The Raspberry Pi is already running. The top-right video shows a top view of the actual setup with the Raspberry Pi and the 360-degree camera.
 
 We review the program briefly. It uses GStreamer to capture data from the 360-degree camera.
 
